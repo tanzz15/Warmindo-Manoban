@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Admin - Warmindo Manoban</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #F77F00;
+      --secondary-color: #FFCF00;
+      --accent-color: #FFE66D;
+      --dark-color: #292F36;
+      --light-color: #F7FFF7;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--light-color);
+      color: var(--dark-color);
+    }
+
+    h1, h3, h5 {
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .table th {
+      background-color: var(--secondary-color);
+      color: var(--dark-color);
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+      background-color: #e26e00;
+      border-color: #e26e00;
+    }
+
+    #adminAlert {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .table td, .table th {
+      vertical-align: middle;
+    }
+
+    .stok-input {
+      max-width: 80px;
+    }
+
+    hr {
+      border-top: 2px solid var(--secondary-color);
+    }
+  </style>
+</head>
+<body class="p-4">
+
+  <h1 class="mb-4 text-center">Dashboard Admin</h1>
+  <p class="text-center text-muted">Hari ini: <span id="tanggalHariIni"></span></p>
+
+
+  <div id="adminAlert" class="position-fixed top-50 start-50 translate-middle alert alert-success text-center d-none" role="alert" style="z-index: 9999; min-width: 300px;"></div>
+
+  <h3>Laporan Keuangan</h3>
+  <table class="table table-bordered" id="laporanKeuangan">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Meja</th>
+        <th>Metode</th>
+        <th>Total (Rp)</th>
+        <th>Rincian Pesanan</th>
+        <th>Waktu</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <h5 class="mt-3">Total Pendapatan: <span id="totalPendapatan" class="text-success fw-bold">Rp 0</span></h5>
+    <button id="downloadCSV" class="btn btn-success mb-3">Download CSV</button>
+  <hr class="my-5">
+
+  <h3>Manajemen Stok</h3>
+  <table class="table table-bordered" id="tabelStok">
+    <thead>
+      <tr>
+        <th>Nama Makanan</th>
+        <th>Stok Tersisa</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <h3 class="mt-5">Kritik & Saran dari Pelanggan</h3>
+  <table class="table table-bordered" id="tabelPesan">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Email</th>
+        <th>Subjek</th>
+        <th>Isi Pesan</th>
+        <th>Waktu</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Modal Rincian Pesanan -->
+  <div class="modal fade" id="rincianPesananModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Rincian Pesanan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body" id="detailPesananBody">
+          <!-- Konten dinamis -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+
+    function lihatDetail(pesananJson) {
+      const pesanan = JSON.parse(pesananJson);
+      let html = '<ul class="list-group">';
+
+      pesanan.forEach(item => {
+        const subtotal = item.harga * item.jumlah;
+        html += `
+          <li class="list-group-item d-flex justify-content-between">
+            <div>
+              <strong>${item.nama}</strong><br>
+              <small>${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')}</small>
+            </div>
+            <span class="fw-bold">Rp ${subtotal.toLocaleString('id-ID')}</span>
+          </li>
+        `;
+      });
+
+      html += '</ul>';
+
+      document.getElementById('detailPesananBody').innerHTML = html;
+      const modal = new bootstrap.Modal(document.getElementById('rincianPesananModal'));
+      modal.show();
+    }
+
+    function tandaiSelesai(index) {
+      const riwayat = JSON.parse(localStorage.getItem('riwayatPesanan')) || [];
+      if (riwayat[index]) {
+        riwayat[index].status = "selesai";
+        localStorage.setItem('riwayatPesanan', JSON.stringify(riwayat));
+        location.reload(); // refresh tampilan admin
+      }
+    }
+
+    // Reset laporan jika hari berganti
+    const today = new Date().toLocaleDateString('id-ID');
+    const lastSaved = localStorage.getItem('lastSavedDate');
+    if (lastSaved && lastSaved !== today) {
+      localStorage.removeItem('riwayatPesanan');
+      localStorage.setItem('lastSavedDate', today);
+    }
+
+    // Ambil pesanan dari localStorage
+    const pesanan = JSON.parse(localStorage.getItem('riwayatPesanan')) || [];
+    const laporanBody = document.querySelector('#laporanKeuangan tbody');
+    let totalSemua = 0;
+
+    pesanan.forEach(p => {
+      const tr = document.createElement('tr');
+
+      let rincianHTML = '<ul class="mb-0">';
+      if (p.pesanan && Array.isArray(p.pesanan)) {
+        p.pesanan.forEach(item => {
+          rincianHTML += `<li>${item.nama} - ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${(item.jumlah * item.harga).toLocaleString('id-ID')}</li>`;
+        });
+      } else {
+        rincianHTML += `<li><em>Tidak ada detail item</em></li>`;
+      }
+      rincianHTML += '</ul>';
+
+      const index = pesanan.indexOf(p); // ambil index pesanan untuk dipakai saat update status
+
+      tr.innerHTML = `
+        <td>${p.nama}</td>
+        <td>${p.meja}</td>
+        <td>${p.metode}</td>
+        <td>Rp ${p.total.toLocaleString('id-ID')}</td>
+        <td>
+          <ul class="mb-0">
+            ${p.pesanan?.map(item => `
+              <li>${item.nama} - ${item.jumlah} x Rp ${item.harga.toLocaleString('id-ID')} = Rp ${(item.jumlah * item.harga).toLocaleString('id-ID')}</li>
+            `).join('') || '<em>Tidak ada data</em>'}
+          </ul>
+        </td>
+        <td>${new Date(p.timestamp || p.waktu).toLocaleString('id-ID')}</td>
+        <td>
+          <span class="badge ${p.status === 'selesai' ? 'bg-success' : 'bg-warning text-dark'}">
+            ${p.status === 'selesai' ? 'Selesai' : 'Belum disajikan'}
+          </span><br>
+          ${p.status !== 'selesai' ? `<button class="btn btn-sm btn-outline-success mt-2" onclick="tandaiSelesai(${index})">Tandai Selesai</button>` : ''}
+        </td>
+      `;
+
+      laporanBody.appendChild(tr);
+      totalSemua += Number(p.total) || 0;
+    });
+
+
+    document.getElementById('totalPendapatan').textContent = `Rp ${totalSemua.toLocaleString('id-ID')}`;
+    
+    const stokMakanan = JSON.parse(localStorage.getItem('stokMakanan')) || {};
+    const stokBody = document.querySelector('#tabelStok tbody');
+
+    Object.keys(stokMakanan).forEach(nama => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${nama}</td>
+        <td><input type="number" class="form-control form-control-sm stok-input" data-nama="${nama}" value="${stokMakanan[nama]}"></td>
+        <td><button class="btn btn-primary btn-sm simpan-btn" data-nama="${nama}">Simpan</button></td>
+      `;
+      stokBody.appendChild(tr);
+    });
+
+    function showAdminAlert(message) {
+      const alertBox = document.getElementById('adminAlert');
+      alertBox.textContent = message;
+      alertBox.classList.remove('d-none');
+
+      setTimeout(() => {
+        alertBox.classList.add('d-none');
+      }, 3000); // Sembunyi setelah 3 detik
+    }
+
+    document.querySelectorAll('.simpan-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const nama = button.getAttribute('data-nama');
+        const input = document.querySelector(`.stok-input[data-nama="${nama}"]`);
+        const nilai = parseInt(input.value);
+        stokMakanan[nama] = nilai;
+        localStorage.setItem('stokMakanan', JSON.stringify(stokMakanan));
+        showAdminAlert(`Stok ${nama} diperbarui jadi ${nilai}`);
+      });
+    });
+
+    document.getElementById('downloadCSV').addEventListener('click', () => {
+        const pesanan = JSON.parse(localStorage.getItem('riwayatPesanan')) || [];
+        if (pesanan.length === 0) {
+          alert('Belum ada data pesanan.');
+          return;
+        }
+
+        let csv = "Nama,Meja,Metode,Total,Waktu\n";
+        pesanan.forEach(p => {
+          const waktu = new Date(p.timestamp || p.waktu).toLocaleString('id-ID');
+          csv += `"${p.nama}","${p.meja}","${p.metode}","${p.total}","${waktu}"\n`;
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'laporan_keuangan.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('tanggalHariIni').textContent = new Date().toLocaleDateString('id-ID', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    const pesan = JSON.parse(localStorage.getItem("kritikSaran")) || [];
+    const tabelPesan = document.querySelector("#tabelPesan tbody");
+
+    pesan.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${p.nama}</td>
+            <td>${p.email}</td>
+            <td>${p.subjek}</td>
+            <td>${p.isi}</td>
+            <td>${p.waktu}</td>
+        `;
+        tabelPesan.appendChild(tr);
+    });
+
+    
+  </script>
+
+</body>
+</html>

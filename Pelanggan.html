@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warmindo Manoban - Pesan Makanan Online</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #F77F00;
+            --secondary-color: #FFCF00;
+            --accent-color: #FFE66D;
+            --dark-color: #3E2723;
+            --light-color: #FAFAFA;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FAFAFA;
+        }
+        
+        .navbar {
+            background-color: var(--dark-color) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(92, 64, 51, 0.8), rgba(92, 64, 51, 0.8)), 
+                        url('images/unsplash.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .hero-section h1 {
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #DA7000;
+            border-color: #F77F00;
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 50px;
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        .menu-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            background-color: white;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .menu-card img {
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .menu-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .menu-card .card-body {
+            padding: 20px;
+        }
+        
+        .menu-card .card-title {
+            color: var(--dark-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .menu-card .card-text {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .add-to-cart {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .add-to-cart:hover {
+            background-color: #EFC200;
+            border-color: #EFC200;
+        }
+        
+        #about {
+            background-color: var(--light-color);
+            padding: 80px 0;
+        }
+        
+        #contact {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 80px 0;
+        }
+        
+        #contact .card {
+            background-color: rgba(255,255,255,0.1);
+            border: none;
+            backdrop-filter: blur(5px);
+        }
+        
+        #contact .form-control {
+            background-color: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        #contact .form-control::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        footer h5 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        /* Cart Modal */
+        .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+            border: none;
+        }
+        
+        .modal-header {
+            background-color: var(--dark-color);
+            color: white;
+            border-bottom: none;
+        }
+        
+        .modal-title {
+            font-weight: 600;
+        }
+        
+        .cart-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .decrease-item {
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+        }
+        
+        .increase-item {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .quantity-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .badge {
+            background-color: var(--primary-color) !important;
+        }
+        
+        /* Floating action button */
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(255,107,107,0.4);
+            z-index: 99;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255,107,107,0.6);
+        }
+        
+        /* Food category tabs */
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+        }
+        
+        .nav-pills .nav-link {
+            color: var(--dark-color);
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        .stok-habis-toast {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f44336;
+            color: white;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            z-index: 9999;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeInOut 2.5s ease-in-out;
+            font-size: 16px;
+        }
+
+        @keyframes fadeInOut {
+            0%   { opacity: 0; transform: translate(-50%, -60%); }
+            10%  { opacity: 1; transform: translate(-50%, -50%); }
+            90%  { opacity: 1; transform: translate(-50%, -50%); }
+            100% { opacity: 0; transform: translate(-50%, -60%); }
+        }
+
+        #emptyCartAlert {
+            animation: fadeInOut 2.5s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0%   { opacity: 0; transform: translate(-50%, -60%); }
+            10%  { opacity: 1; transform: translate(-50%, -50%); }
+            90%  { opacity: 1; transform: translate(-50%, -50%); }
+            100% { opacity: 0; transform: translate(-50%, -60%); }
+        }
+
+
+        
+    </style>
+</head>
+
+
+<!-- Modal Topping -->
+<div class="modal fade" id="toppingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title">Pilih Topping</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="toppingForm">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Otak-otak" data-price="1000" id="toppingOtak-otak">
+            <label class="form-check-label" for="toppingOtak-otak">Otak-otak (+Rp 1.000)</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Sosis" data-price="1000" id="toppingSosis">
+            <label class="form-check-label" for="toppingSosis">Sosis (+Rp 1.000)</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Kornet" data-price="2000" id="toppingKornet">
+            <label class="form-check-label" for="toppingKornet">Kornet (+Rp 2.000)</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Bakso Sapi" data-price="2000" id="toppingBaksoSapi">
+            <label class="form-check-label" for="toppingBaksoSapi">Bakso Sapi (+Rp 2.000)</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Ayam Suwir" data-price="2500" id="toppingAyamSuwir">
+            <label class="form-check-label" for="toppingAyamSuwir">Ayam Suwir (+Rp 2.500)</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="Telur Ceplok" data-price="3000" id="toppingTelurCeplok">
+            <label class="form-check-label" for="toppingTelurCeplok">Telur Ceplok (+Rp 3.000)</label>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" id="confirmTopping">Tambah ke Keranjang</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal Pilih Minuman -->
+<div class="modal fade" id="suhuMinumanModal" tabindex="-1" aria-labelledby="suhuMinumanLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #5D2C00; color: white;">
+            <h5 class="modal-title">Pilih Minuman</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+        </div>
+      <div class="modal-body">
+        <p id="namaMinumanPilihan" class="fw-bold mb-2"></p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="suhuMinuman" id="opsiEs" value="Es" checked>
+          <label class="form-check-label" for="opsiEs">Es</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="suhuMinuman" id="opsiHangat" value="Hangat">
+          <label class="form-check-label" for="opsiHangat">Hangat</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-primary" id="konfirmasiSuhuMinuman">Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Pilih Metode Pembayaran -->
+<div class="modal fade" id="pembayaranModal" tabindex="-1" aria-labelledby="pembayaranModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pembayaranModalLabel"><i class="fas fa-money-bill-wave me-2"></i> Pilih Metode Pembayaran</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="metodePembayaran" id="tunai" value="Tunai" checked>
+          <label class="form-check-label" for="tunai">Tunai</label>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="metodePembayaran" id="nonTunai" value="Non-Tunai">
+          <label class="form-check-label" for="nonTunai">Non-Tunai (QRIS / Transfer)</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-primary" id="konfirmasiPembayaran">Lanjut</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal QRIS -->
+<div class="modal fade" id="qrisModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Pembayaran Non-Tunai</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>Silakan scan QR berikut untuk membayar:</p>
+        <img src="images/qris.jpg" alt="QRIS" class="img-fluid mb-3">
+        <p class="text-muted">Setelah membayar, tekan tombol di bawah.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" onclick="lanjutSetelahQris()">Saya Sudah Bayar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="emptyCartAlert" class="position-fixed top-50 start-50 translate-middle bg-warning text-dark px-4 py-3 rounded shadow d-none" style="z-index: 9999;">
+  <strong>Keranjang kosong!</strong><br>Silakan tambahkan menu terlebih dahulu.
+</div>
+
+
+<body>
+    <!-- Modal Input Nama & Meja -->
+    <div class="modal fade" id="pelangganModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <form id="formPelanggan" onsubmit="simpanPelanggan(event)">
+            <div class="modal-header">
+            <h5 class="modal-title">Selamat Datang</h5>
+            </div>
+            <div class="modal-body">
+            <div class="mb-3">
+                <label for="namaPelanggan" class="form-label">Nama Anda</label>
+                <input type="text" class="form-control" id="namaPelanggan" required>
+            </div>
+            <div class="mb-3">
+                <label for="mejaPelanggan" class="form-label">Nomor Meja</label>
+                <input type="number" class="form-control" id="mejaPelanggan" required>
+            </div>
+            </div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Mulai Pesan</button>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-utensils me-2"></i>Warmindo Manoban
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#menu">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Tentang Kami</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Kontak</a>
+                    </li>
+                    <li class="nav-item ms-2 d-flex align-items-center">
+                        <button class="btn btn-outline-light position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" id="cartCount">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold mb-4">Selamat Datang di Warmindo Manoban</h1>
+                    <p class="lead mb-5">Nikmati berbagai varian mie dan nasi dengan cita rasa otentik dan harga terjangkau</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="#menu" class="btn btn-primary btn-lg px-4 py-2">
+                            <i class="fas fa-utensils me-2"></i>Lihat Menu
+                        </a>
+                        <a href="#contact" class="btn btn-outline-light btn-lg px-4 py-2">
+                            <i class="fas fa-phone-alt me-2"></i>Pesan Sekarang
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt-4" id="statusPesananSection" style="display: none;">
+        <h4>Status Pesanan Anda</h4>
+        <div id="statusPesananContent" class="alert alert-info">Memuat...</div>
+    </div>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title animate">Menu Favorit</h2>
+            
+            <!-- Food Categories -->
+            <ul class="nav nav-pills justify-content-center mb-5">
+                <li class="nav-item mx-2">
+                    <a class="nav-link active" data-bs-toggle="pill" href="#all">Semua</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link" data-bs-toggle="pill" href="#mies">Mie</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link" data-bs-toggle="pill" href="#nasi">Nasi</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link" data-bs-toggle="pill" href="#minuman">Minuman</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <!-- Tab Semua -->
+            <div id="all" class="tab-pane fade show active">
+                <div class="row">
+                    <!-- Menu Item: Bubur Kacang Ijo --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/bubur kacang hijau.jpg" class="card-img-top" alt="Bubur Kacang Ijo">
+                            <div class="card-body">
+                                <h5 class="card-title">Bubur Kacang Ijo</h5>
+                                <p class="card-text">Bubur kacang ijo dengan campuran susu dan roti tawar.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 8.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Bubur Kacang Ijo" data-price="8000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Bubur Ketan Hitam --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/bubur ketan hitam.jpg" class="card-img-top" alt="Es Bubur Ketan Hitam">
+                            <div class="card-body">
+                                <h5 class="card-title">Bubur Ketan Hitam</h5>
+                                <p class="card-text">Bubur ketan hitam dengan campuran susu dan roti tawar.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 8.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Bubur Ketan Hitam" data-price="8000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Intel Goreng -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/intel goreng.jpg" class="card-img-top" alt="Intel Goreng">
+                            <div class="card-body">
+                                <h5 class="card-title">Intel Goreng</h5>
+                                <p class="card-text">Mie goreng dengan telur, sayuran, dan topping pilihan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Intel Goreng">Sisa stok: 10</p> <!-- Tambahan ini, jgn lupa setiap menunya gini -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 10.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Intel Goreng" data-price="10000" data-stock="10">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Intel Rebus -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/intel rebus.jpg" class="card-img-top" alt="Intel Rebus">
+                            <div class="card-body">
+                                <h5 class="card-title">Intel Rebus</h5>
+                                <p class="card-text">Mie rebus dengan telur, sayuran, dan topping pilihan</p>
+                                <p class="stok text-muted mb-1" data-nama="Intel Rebus">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 10.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Intel Rebus" data-price="10000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Tante Goreng -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/tante goreng.png" class="card-img-top" alt="Tante Goreng">
+                            <div class="card-body">
+                                <h5 class="card-title">Tante Goreng</h5>
+                                <p class="card-text">Mie goreng polos tanpa telur, cocok buat yang simple dan hemat.</p>
+                                <p class="stok text-muted mb-1" data-nama="Tante Goreng">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 7.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Tante Goreng" data-price="7000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Tante Rebus -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/tante rebus.png" class="card-img-top" alt="Tante Rebus">
+                            <div class="card-body">
+                                <h5 class="card-title">Tante Rebus</h5>
+                                <p class="card-text">Mie rebus polos tanpa telur, cocok buat yang simple dan hemat.</p>
+                                <p class="stok text-muted mb-1" data-nama="Tante Rebus">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 7.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Tante Rebus" data-price="7000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Mie Dok-Dok -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/dokdok.jpg" class="card-img-top" alt="Mie Dok-Dok">
+                            <div class="card-body">
+                                <h5 class="card-title">Mie Dok-Dok</h5>
+                                <p class="card-text">Mie kuah pedas dengan topping lengkap, cocok untuk pecinta rasa gurih-pedas.</p>
+                                <p class="stok text-muted mb-1" data-nama="Mie Dok-Dok">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 12.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Mie Dok-Dok" data-price="12000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Mie Nyemek -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nyemek.jpg" class="card-img-top" alt="Mie Nyemek">
+                            <div class="card-body">
+                                <h5 class="card-title">Mie Nyemek</h5>
+                                <p class="card-text">Mie setengah kering dengan kuah kental, perpaduan unik antara goreng dan rebus</p>
+                                <p class="stok text-muted mb-1" data-nama="Mie Nyemek">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 11.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Mie Nyemek" data-price="11000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Omlet --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/omelet.jpg" class="card-img-top" alt="Omlet">
+                            <div class="card-body">
+                                <h5 class="card-title">Omlet</h5>
+                                <p class="card-text">Telur dadar tebal isi sayuran, cocok untuk sarapan atau makan ringan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Omlet">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 5.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Omlet" data-price="5000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Goreng Spesial -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/Nasi Goreng.jpeg" class="card-img-top" alt="Nasi Goreng Spesial">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Goreng Spesial</h5>
+                                <p class="card-text">Nasi goreng komplet dengan telur ceplok, ayam, dan kerupuk, porsi spesial mengenyangkan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Goreng Spesial">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 15.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Goreng Spesial" data-price="15000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Goreng Magelangan -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/magelangan.jpg" class="card-img-top" alt="Nasi Goreng Magelangan">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Goreng Magelangan</h5>
+                                <p class="card-text">Nasi goreng komplet dengan sedikit mie, telur ceplok, ayam, dan kerupuk, porsi spesial mengenyangkan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Goreng Magelangan">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 17.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Goreng Magelangan" data-price="17000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Telur --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi telur.jpg" class="card-img-top" alt="Nasi Telur">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Telur</h5>
+                                <p class="card-text">Nasi putih dengan telur dadar dan sambal, pilihan sederhana namun lezat</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Telur">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 8.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Telur" data-price="8000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Telur Orak-arik --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi orak arik telur.jpg" class="card-img-top" alt="Nasi Telur Orak-arik">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Telur Orak-arik</h5>
+                                <p class="card-text">Nasi dengan telur orak-arik sayuran, sehat dan bergizi.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Telur Orak-arik">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 9.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Telur Orak-arik" data-price="9000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Ayam Orak-arik --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/orak arik ayam.jpg" class="card-img-top" alt="Nasi Ayam Orak-arik">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Ayam Orak-arik</h5>
+                                <p class="card-text">Nasi dengan ayam orak-arik pedas, protein tinggi dan mengenyangkan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Ayam Orak-arik">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 10.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Ayam Orak-arik" data-price="10000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Ayam Gepuk --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi ayam gepuk.jpg" class="card-img-top" alt="Nasi Ayam Gepuk">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Ayam Gepuk</h5>
+                                <p class="card-text">Nasi dengan ayam gepuk empuk dan sambal, cita rasa pedas gurih.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Ayam Gepuk">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 13.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Ayam Gepuk" data-price="13000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Ayam Geprek --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/ayam geprek.jpg" class="card-img-top" alt="Nasi Ayam Geprek">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Ayam Geprek</h5>
+                                <p class="card-text">Nasi dengan ayam geprek renyah dan sambal bawang, favorit anak muda.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Ayam Geprek">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 13.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Ayam Geprek" data-price="13000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Gila --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi gila.jpg" class="card-img-top" alt="Nasi Gila">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Gila</h5>
+                                <p class="card-text">Nasi campur sosis, nugget, dan sayuran, porsi gila-gilaan untuk yang lapar berat.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Gila">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 11.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Gila" data-price="11000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Sarden --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi sarden.jpg" class="card-img-top" alt="Nasi Sarden">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Sarden</h5>
+                                <p class="card-text">Nasi dengan sarden saus tomat, praktis dan kaya protein.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Sarden">Sisa stok: </p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 13.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Sarden" data-price="13000" data-stock="...">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Teh --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/es teh.jpg" class="card-img-top" alt="Teh Klasik">
+                            <div class="card-body">
+                                <h5 class="card-title">Teh Klasik</h5>
+                                <p class="card-text">Teh klasik, minuman tradisional yang selalu jadi favorit.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 3.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Teh Klasik" data-price="3000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item:Lemon Tea --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/lemontee.jpg" class="card-img-top" alt="Lemon Tea">
+                            <div class="card-body">
+                                <h5 class="card-title">Lemon Tea</h5>
+                                <p class="card-text">Teh lemon segar dengan irisan lemon asli.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 6.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Lemon Tea" data-price="6000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item:Jeruk --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/es jeruk.jpg" class="card-img-top" alt="Jeruk">
+                            <div class="card-body">
+                                <h5 class="card-title">Jeruk</h5>
+                                <p class="card-text">Perasan jeruk segar, vitamin C alami untuk kesehatan.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 4.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Jeruk" data-price="4000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Lychee Tea --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/lecytae.jpg" class="card-img-top" alt="Lychee Tea">
+                            <div class="card-body">
+                                <h5 class="card-title">Lychee Tea</h5>
+                                <p class="card-text">Teh dengan rasa leci eksotis, manis dan menyegarkan.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 7.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Lychee Tea" data-price="7000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item:Milo --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/Milo.jpg" class="card-img-top" alt="Milo">
+                            <div class="card-body">
+                                <h5 class="card-title">Milo</h5>
+                                <p class="card-text">Susu milo coklat malt creamy, nostalgia masa kecil yang bikin nagih.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 5.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Milo" data-price="5000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item:Gooday Capucino --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/goodday cappucino.jpg" class="card-img-top" alt=Gooday Capucino">
+                            <div class="card-body">
+                                <h5 class="card-title">Gooday Capucino</h5>
+                                <p class="card-text">Kopi capucino yang trendy dan instagramable.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 5.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Gooday Capucino" data-price="5000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Americano  --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/americano.jpg" class="card-img-top" alt="Americano">
+                            <div class="card-body">
+                                <h5 class="card-title">Americano</h5>
+                                <p class="card-text">Kopi hitam untuk pecinta kopi sejati, kuat dan berani.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 4.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Americano" data-price="4000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Pop Ice --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/pop ice.jpg" class="card-img-top" alt="Pop Ice">
+                            <div class="card-body">
+                                <h5 class="card-title">Pop Ice</h5>
+                                <p class="card-text">Minuman aneka rasa warna-warni, segar dan menyenangkan untuk segala usia.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 3.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Pop Ice" data-price="3000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Soda Gembira  --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/soda gembira.jpg" class="card-img-top" alt="Soda Gembira">
+                            <div class="card-body">
+                                <h5 class="card-title">Soda Gembira</h5>
+                                <p class="card-text">Minuman soda merah manis berkarbonasi, bikin mood happy.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 7.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Soda Gembira" data-price="7000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Susu Jahe  --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/susu jahe anget.jpg" class="card-img-top" alt="Susu Jahe">
+                            <div class="card-body">
+                                <h5 class="card-title">Susu Jahe</h5>
+                                <p class="card-text">Susu dengan jahe, cocok untuk kesehatan.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 4.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Susu Jahe" data-price="4000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Air Mineral  --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/air.webp" class="card-img-top" alt="Air Mineral">
+                            <div class="card-body">
+                                <h5 class="card-title">Air Mineral</h5>
+                                <p class="card-text">Kemasan air mineral untuk yang membutuhkan hidrasi sederhana dan sehat.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 3.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Air Mineral" data-price="3000" data-kategori="minuman" data-stock="20">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Mie -->
+            <div id="mies" class="tab-pane fade">
+                <div class="row">
+                    <!-- Menu Item: Intel Goreng -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/intel goreng.jpg" class="card-img-top" alt="Intel Goreng">
+                            <div class="card-body">
+                                <h5 class="card-title">Intel Goreng</h5>
+                                <p class="card-text">Mie goreng dengan telur, sayuran, dan topping pilihan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Intel Goreng">Sisa stok: 30</p> <!-- Tambahan ini, jgn lupa setiap menunya gini -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 10.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Intel Goreng" data-price="10000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Intel Rebus -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/intel rebus.jpg" class="card-img-top" alt="Intel Rebus">
+                            <div class="card-body">
+                                <h5 class="card-title">Intel Rebus</h5>
+                                <p class="card-text">Mie rebus dengan telur, sayuran, dan topping pilihan</p>
+                                <p class="stok text-muted mb-1" data-nama="Intel Rebus">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 10.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Intel Rebus" data-price="10000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Tante Goreng -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/tante goreng.png" class="card-img-top" alt="Tante Goreng">
+                            <div class="card-body">
+                                <h5 class="card-title">Tante Goreng</h5>
+                                <p class="card-text">Mie goreng polos tanpa telur, cocok buat yang simple dan hemat.</p>
+                                <p class="stok text-muted mb-1" data-nama="Tante Goreng">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 7.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Tante Goreng" data-price="7000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Tante Rebus -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/tante rebus.png" class="card-img-top" alt="Tante Rebus">
+                            <div class="card-body">
+                                <h5 class="card-title">Tante Rebus</h5>
+                                <p class="card-text">Mie rebus polos tanpa telur, cocok buat yang simple dan hemat.</p>
+                                <p class="stok text-muted mb-1" data-nama="Tante Rebus">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 7.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Tante Rebus" data-price="7000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Mie Dok-Dok -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/dokdok.jpg" class="card-img-top" alt="Mie Dok-Dok">
+                            <div class="card-body">
+                                <h5 class="card-title">Mie Dok-Dok</h5>
+                                <p class="card-text">Mie kuah pedas dengan topping lengkap, cocok untuk pecinta rasa gurih-pedas.</p>
+                                <p class="stok text-muted mb-1" data-nama="Mie Dok-Dok">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 12.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Mie Dok-Dok" data-price="12000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Mie Nyemek -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nyemek.jpg" class="card-img-top" alt="Mie Nyemek">
+                            <div class="card-body">
+                                <h5 class="card-title">Mie Nyemek</h5>
+                                <p class="card-text">Mie setengah kering dengan kuah kental, perpaduan unik antara goreng dan rebus</p>
+                                <p class="stok text-muted mb-1" data-nama="Mie Nyemek">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 11.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Mie Nyemek" data-price="11000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Omlet --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/omelet.jpg" class="card-img-top" alt="Omlet">
+                            <div class="card-body">
+                                <h5 class="card-title">Omlet</h5>
+                                <p class="card-text">Telur dadar tebal isi sayuran, cocok untuk sarapan atau makan ringan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Omlet">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 5.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Omlet" data-price="5000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Nasi -->
+            <div id="nasi" class="tab-pane fade">
+                <div class="row">
+                    <!-- Menu Item: Nasi Goreng Spesial -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/Nasi Goreng.jpeg" class="card-img-top" alt="Nasi Goreng Spesial">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Goreng Spesial</h5>
+                                <p class="card-text">Nasi goreng komplet dengan telur ceplok, ayam, dan kerupuk, porsi spesial mengenyangkan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Goreng Spesial">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 15.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Goreng Spesial" data-price="15000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Goreng Magelangan -->
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/magelangan.jpg" class="card-img-top" alt="Nasi Goreng Magelangan">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Goreng Magelangan</h5>
+                                <p class="card-text">Nasi goreng komplet dengan sedikit mie, telur ceplok, ayam, dan kerupuk, porsi spesial mengenyangkan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Goreng Magelangan">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 17.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Goreng Magelangan" data-price="17000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Telur --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi telur.jpg" class="card-img-top" alt="Nasi Telur">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Telur</h5>
+                                <p class="card-text">Nasi putih dengan telur dadar dan sambal, pilihan sederhana namun lezat</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Telur">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 8.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Telur" data-price="8000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Telur Orak-arik --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi orak arik telur.jpg" class="card-img-top" alt="Nasi Telur Orak-arik">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Telur Orak-arik</h5>
+                                <p class="card-text">Nasi dengan telur orak-arik sayuran, sehat dan bergizi.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Telur Orak-arik">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 9.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Telur Orak-arik" data-price="9000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Ayam Orak-arik --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/orak arik ayam.jpg" class="card-img-top" alt="Nasi Ayam Orak-arik">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Ayam Orak-arik</h5>
+                                <p class="card-text">Nasi dengan ayam orak-arik pedas, protein tinggi dan mengenyangkan.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Ayam Orak-arik">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 10.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Ayam Orak-arik" data-price="10000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Ayam Gepuk --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi ayam gepuk.jpg" class="card-img-top" alt="Nasi Ayam Gepuk">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Ayam Gepuk</h5>
+                                <p class="card-text">Nasi dengan ayam gepuk empuk dan sambal, cita rasa pedas gurih.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Ayam Gepuk">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 13.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Ayam Gepuk" data-price="13000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Ayam Geprek --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/ayam geprek.jpg" class="card-img-top" alt="Nasi Ayam Geprek">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Ayam Geprek</h5>
+                                <p class="card-text">Nasi dengan ayam geprek renyah dan sambal bawang, favorit anak muda.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Ayam Geprek">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 13.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Ayam Geprek" data-price="13000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Gila --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi gila.jpg" class="card-img-top" alt="Nasi Gila">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Gila</h5>
+                                <p class="card-text">Nasi campur sosis, nugget, dan sayuran, porsi gila-gilaan untuk yang lapar berat.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Gila">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 11.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Gila" data-price="11000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Nasi Sarden --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/nasi sarden.jpg" class="card-img-top" alt="Nasi Sarden">
+                            <div class="card-body">
+                                <h5 class="card-title">Nasi Sarden</h5>
+                                <p class="card-text">Nasi dengan sarden saus tomat, praktis dan kaya protein.</p>
+                                <p class="stok text-muted mb-1" data-nama="Nasi Sarden">Sisa stok: 30</p> <!-- Tambahan stok -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 13.000</span>
+                                    <button class="btn btn-sm add-to-cart" data-name="Nasi Sarden" data-price="13000" data-stock="30">
+                                        <i class="fas fa-plus me-1"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Minuman -->
+            <div id="minuman" class="tab-pane fade">
+                <div class="row">
+                    <!-- Menu Item: Teh --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/es teh.jpg" class="card-img-top" alt="Teh Klasik">
+                            <div class="card-body">
+                                <h5 class="card-title">Teh Klasik</h5>
+                                <p class="card-text">Teh klasik, minuman tradisional yang selalu jadi favorit.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 3.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Teh Klasik" data-price="3000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item:Lemon Tea --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/lemontee.jpg" class="card-img-top" alt="Lemon Tea">
+                            <div class="card-body">
+                                <h5 class="card-title">Lemon Tea</h5>
+                                <p class="card-text">Teh lemon segar dengan irisan lemon asli.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 6.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Lemon Tea" data-price="6000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item:Jeruk --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/es jeruk.jpg" class="card-img-top" alt="Jeruk">
+                            <div class="card-body">
+                                <h5 class="card-title">Jeruk</h5>
+                                <p class="card-text">Perasan jeruk segar, vitamin C alami untuk kesehatan.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 4.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Jeruk" data-price="4000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Lychee Tea --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/lecytae.jpg" class="card-img-top" alt="Lychee Tea">
+                            <div class="card-body">
+                                <h5 class="card-title">Lychee Tea</h5>
+                                <p class="card-text">Teh dengan rasa leci eksotis, manis dan menyegarkan.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 7.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Lychee Tea" data-price="7000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item:Milo --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/Milo.jpg" class="card-img-top" alt="Milo">
+                            <div class="card-body">
+                                <h5 class="card-title">Milo</h5>
+                                <p class="card-text">Susu milo coklat malt creamy, nostalgia masa kecil yang bikin nagih.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 5.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Milo" data-price="5000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item:Gooday Capucino --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/goodday cappucino.jpg" class="card-img-top" alt="Gooday Capucino">
+                            <div class="card-body">
+                                <h5 class="card-title">Gooday Capucino</h5>
+                                <p class="card-text">Kopi capucino yang trendy dan instagramable.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 5.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Gooday Capucino" data-price="5000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Americano  --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/americano.jpg" class="card-img-top" alt="Americano">
+                            <div class="card-body">
+                                <h5 class="card-title">Americano</h5>
+                                <p class="card-text">Kopi hitam untuk pecinta kopi sejati, kuat dan berani.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 4.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Americano" data-price="4000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Pop Ice --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/pop ice.jpg" class="card-img-top" alt="Pop Ice">
+                            <div class="card-body">
+                                <h5 class="card-title">Pop Ice</h5>
+                                <p class="card-text">Minuman aneka rasa warna-warni, segar dan menyenangkan untuk segala usia.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 3.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Pop Ice" data-price="3000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Soda Gembira  --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/soda gembira.jpg" class="card-img-top" alt="Soda Gembira">
+                            <div class="card-body">
+                                <h5 class="card-title">Soda Gembira</h5>
+                                <p class="card-text">Minuman soda merah manis berkarbonasi, bikin mood happy.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 7.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Soda Gembira" data-price="7000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Susu Jahe  --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/susu jahe anget.jpg" class="card-img-top" alt="Susu Jahe">
+                            <div class="card-body">
+                                <h5 class="card-title">Susu Jahe</h5>
+                                <p class="card-text">Susu dengan jahe, cocok untuk kesehatan.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 4.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Susu Jahe" data-price="4000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Menu Item: Air Mineral  --> 
+                    <div class="col-md-4 animate delay-1">
+                        <div class="card menu-card h-100">
+                            <img src="images/air.webp" class="card-img-top" alt="Air Mineral">
+                            <div class="card-body">
+                                <h5 class="card-title">Air Mineral</h5>
+                                <p class="card-text">Kemasan air mineral untuk yang membutuhkan hidrasi sederhana dan sehat.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price">Rp 3.000</span>
+                                    <button class="add-to-cart btn btn-primary" data-name="Air Mineral" data-price="3000" data-kategori="minuman" data-stock="30">Tambah</button> <!-- Ada stoknya -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="images/warmindo.jpeg" class="img-fluid rounded shadow-lg" alt="Tentang Kami">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="section-title text-start mb-4">Tentang Warmindo Manoban</h2>
+                    <p class="lead">Warung makan dengan cita rasa otentik sejak 2020</p>
+                    <p>Warmindo Manoban telah beroperasi sejak tahun 2020 dengan menyajikan berbagai varian mie dan nasi goreng dengan cita rasa yang khas. Kami menggunakan bahan-bahan segar dan berkualitas untuk memastikan kepuasan pelanggan.</p>
+                    <p>Dengan pengalaman lebih dari 5 tahun, kami terus berinovasi untuk memberikan pengalaman makan terbaik dengan harga yang terjangkau.</p>
+                    <div class="d-flex mt-4">
+                        <div class="me-4">
+                            <h3 class="text-primary">5+</h3>
+                            <p>Tahun Pengalaman</p>
+                        </div>
+                        <div class="me-4">
+                            <h3 class="text-primary">18+</h3>
+                            <p>Menu Variasi</p>
+                        </div>
+                        <div>
+                            <h3 class="text-primary">500+</h3>
+                            <p>Pelanggan Setia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title text-white">Hubungi Kami</h2>
+            
+            <div class="row">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="card h-100">
+                        <div class="card-body p-4">
+                            <h3 class="mb-4"><i class="fas fa-map-marker-alt text-primary me-2"></i> Lokasi Kami</h3>
+                            <p class="mb-4">Jl. Ring Road Utara, Ngringin, Condongcatur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281</p>
+                            
+                            <h3 class="mb-4"><i class="fas fa-clock text-primary me-2"></i> Jam Buka</h3>
+                            <p class="mb-1"><strong>Senin - Jumat:</strong> 10.00 - 22.00</p>
+                            <p class="mb-4"><strong>Sabtu - Minggu:</strong> 09.00 - 23.00</p>
+                            
+                            <h3 class="mb-4"><i class="fas fa-phone-alt text-primary me-2"></i> Kontak</h3>
+                            <p class="mb-1"><i class="fas fa-phone me-2"></i> (024) 1234567</p>
+                            <p class="mb-4"><i class="fas fa-envelope me-2"></i> info@warmindomanoban.com</p>
+                            
+                            <h3 class="mb-3">Follow Kami</h3>
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                                <a href="#"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-7">
+                    <div class="card h-100">
+                        <div class="card-body p-4">
+                            <h3 class="mb-4"><i class="fas fa-paper-plane text-primary me-2"></i> Kirim Pesan</h3>
+                            <form id="formPesan">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" id="namaPengirim" class="form-control" placeholder="Nama Anda" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="email" id="emailPengirim" class="form-control" placeholder="Email Anda" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="text" id="subjekPesan" class="form-control" placeholder="Subjek" required>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea id="isiPesan" class="form-control" rows="5" placeholder="Pesan Anda" required></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary px-4 py-2">
+                                    <i class="fas fa-paper-plane me-2"></i> Kirim Pesan
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="fas fa-utensils me-2"></i> Warmindo Manoban</h5>
+                    <p>Warung makan dengan cita rasa otentik dan harga terjangkau. Pesan sekarang dan nikmati makanan lezat kami.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Menu</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#">Mie-miean</a></li>
+                        <li class="mb-2"><a href="#">Nasi-nasian</a></li>
+                        <li class="mb-2"><a href="#">Minuman</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Tautan</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#">Home</a></li>
+                        <li class="mb-2"><a href="#menu">Menu</a></li>
+                        <li class="mb-2"><a href="#about">Tentang Kami</a></li>
+                        <li class="mb-2"><a href="#contact">Kontak</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+            <hr class="mt-0 mb-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2025 Warmindo Manoban. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Cart Button -->
+    <div class="floating-btn" data-bs-toggle="modal" data-bs-target="#cartModal">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" id="floatingCartCount">0</span>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-shopping-cart me-2"></i> Keranjang Belanja</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItems">
+                        <p class="text-center py-3">Keranjang belanja kosong</p>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Total:</h5>
+                        <h4 class="mb-0 text-primary" id="cartTotal">Rp 0</h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lanjut Belanja</button>
+                    <button type="button" class="btn btn-primary" onclick="pilihMetodePembayaran()">Proses Pesanan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rincian Pesanan Modal -->
+    <div class="modal fade" id="rincianModal" tabindex="-1" aria-labelledby="rincianModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="rincianModalLabel"><i class="fas fa-receipt me-2"></i> Rincian Pesanan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="rincianContent">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="position-fixed top-50 start-50 translate-middle p-3" style="z-index: 1100">
+    <div id="stokToast" class="toast align-items-center text-white bg-danger border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+        <div class="toast-body">
+            <i class="fas fa-exclamation-circle me-2"></i> Stok habis!
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="stokHabisToast" class="stok-habis-toast shadow-lg">
+        <i class="fas fa-exclamation-triangle me-2"></i> Stok tidak mencukupi untuk menambah item ini.
+    </div>
+
+    <!-- Toast Notifikasi -->
+    <div id="toastKritik" class="position-fixed top-50 start-50 translate-middle bg-primary text-white p-3 rounded shadow d-none" style="z-index: 9999;">
+        <strong>Terima kasih!</strong><br>
+        Pesan Anda telah dikirim.
+    </div>
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+        function updateStokDisplay() {
+            document.querySelectorAll('.stok').forEach(el => {
+                const nama = el.getAttribute('data-nama');
+                const stok = stokMakanan[nama] ?? 0;
+                el.textContent = `Sisa stok: ${stok}`;
+            });
+        }
+
+        function showStokHabisToast() {
+            const stokToastEl = document.getElementById('stokToast');
+            const toast = new bootstrap.Toast(stokToastEl, {
+                autohide: true,
+                delay: 1200
+            });
+            toast.show();
+        }
+
+
+        function showStokToast(pesan = 'Stok tidak mencukupi untuk menambah item ini.') {
+            const toast = document.getElementById('stokHabisToast');
+            toast.textContent = pesan;
+            toast.style.display = 'block';
+
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+
+
+        let cart = [];
+        let selectedItem = null;
+        let stokMakanan = {}; 
+
+        function getBaseName(name) {
+            return name.split(' + ')[0];
+        }
+
+        function simpanPelanggan(event) {
+            event.preventDefault(); 
+            const nama = document.getElementById('namaPelanggan').value.trim();
+            const meja = document.getElementById('mejaPelanggan').value.trim();
+
+            if (!nama || !meja) {
+                alert("Silakan isi nama dan nomor meja terlebih dahulu.");
+                return;
+            }
+
+            localStorage.setItem('namaPelanggan', nama);
+            localStorage.setItem('mejaPelanggan', meja);
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('pelangganModal'));
+            modal.hide();
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ambil stok dari localStorage kalau ada
+            stokMakanan = JSON.parse(localStorage.getItem('stokMakanan')) || {};
+
+            // Jika ada makanan di HTML tapi belum ada di localStorage, pakai data-stock
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                const nama = button.getAttribute('data-name');
+                const stok = parseInt(button.getAttribute('data-stock')) || 0;
+
+                if (!(nama in stokMakanan)) {
+                    stokMakanan[nama] = stok;
+                }
+            });
+
+            updateStokDisplay();
+
+            // Cek apakah sudah ada nama & meja
+            if (!localStorage.getItem('namaPelanggan') || !localStorage.getItem('mejaPelanggan')) {
+                const modal = new bootstrap.Modal(document.getElementById('pelangganModal'));
+                modal.show();
+            }
+
+            // Simpan nama & meja saat form dikirim
+            document.getElementById('formPelanggan').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const nama = document.getElementById('namaPelanggan').value.trim();
+                const meja = document.getElementById('mejaPelanggan').value.trim();
+                if (nama && meja) {
+                    localStorage.setItem('namaPelanggan', nama);
+                    localStorage.setItem('mejaPelanggan', meja);
+                    bootstrap.Modal.getInstance(document.getElementById('pelangganModal')).hide();
+                }
+            });
+        });
+
+
+        //stok
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('add-to-cart') || e.target.closest('.add-to-cart')) {
+                const button = e.target.closest('.add-to-cart');
+                const kategori = button.getAttribute('data-kategori');
+
+                selectedItem = {
+                    name: button.getAttribute('data-name'),
+                    price: parseInt(button.getAttribute('data-price'))
+                };
+
+                const stokTersedia = stokMakanan[selectedItem.name] || 0;
+                if (stokTersedia <= 0) {
+                    showStokHabisToast();
+                    return;
+                }
+
+                if (kategori === 'minuman') {
+                    // Tampilkan modal pilihan suhu
+                    window.minumanTerpilih = { ...selectedItem };
+                    const modal = new bootstrap.Modal(document.getElementById('suhuMinumanModal'));
+                    modal.show();
+                } else {
+                    // Tampilkan modal topping
+                    const modal = new bootstrap.Modal(document.getElementById('toppingModal'));
+                    modal.show();
+                }
+            }
+        });
+
+        document.getElementById('konfirmasiSuhuMinuman').addEventListener('click', function () {
+            const suhu = document.querySelector('input[name="suhuMinuman"]:checked').value;
+            const { name, price } = window.minumanTerpilih;
+            const namaFinal = `${name} (${suhu})`;
+
+            const existingItem = cart.find(item => item.name === namaFinal);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: namaFinal,
+                    price: price,
+                    quantity: 1
+                });
+            }
+
+            stokMakanan[name]--;
+            updateStokDisplay();
+            updateCart();
+
+            // Tutup modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('suhuMinumanModal'));
+            modal.hide();
+        });
+
+        document.getElementById('confirmTopping').addEventListener('click', function () {
+        const checkedToppings = document.querySelectorAll('#toppingForm input:checked');
+        let toppingList = [];
+        let toppingTotal = 0;
+
+        checkedToppings.forEach(item => {
+            toppingList.push(item.value);
+            toppingTotal += parseInt(item.getAttribute('data-price'));
+        });
+
+        const finalPrice = selectedItem.price + toppingTotal;
+        const nameWithTopping = `${selectedItem.name} + ${toppingList.join(', ')}`;
+
+        const existingItem = cart.find(item => item.name === nameWithTopping);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                name: nameWithTopping,
+                price: finalPrice,
+                quantity: 1
+            });
+        }
+
+        // Kurangi stok dari nama asli (bukan yg + topping)
+        const baseName = selectedItem.name; 
+        if (stokMakanan[getBaseName(nameWithTopping)]) {
+            stokMakanan[getBaseName(nameWithTopping)]--;
+            updateStokDisplay(); 
+        }
+
+        updateCart();
+        const modalElement = document.getElementById('toppingModal');
+        const toppingModal = bootstrap.Modal.getInstance(modalElement);
+        toppingModal.hide();
+        });
+
+        document.getElementById('toppingModal').addEventListener('hidden.bs.modal', function () {
+        document.getElementById('toppingForm').reset();
+        });
+
+        function updateCart() {
+            const cartItemsElement = document.getElementById('cartItems');
+            const cartCountElement = document.getElementById('cartCount');
+            const floatingCartCount = document.getElementById('floatingCartCount');
+            const cartTotalElement = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                cartItemsElement.innerHTML = '<p class="text-center py-3">Keranjang belanja kosong</p>';
+                cartCountElement.textContent = '0';
+                floatingCartCount.textContent = '0';
+                cartTotalElement.textContent = 'Rp 0';
+                return;
+            }
+
+            let itemsHtml = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                itemsHtml += `
+                    <div class="cart-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">${item.name}</h6>
+                                <small class="text-muted">Rp ${item.price.toLocaleString('id-ID')} x ${item.quantity}</small>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="quantity-btn decrease-item me-2" data-name="${item.name}">
+                                    <i class="fas fa-minus"></i>
+                                </div>
+                                <span class="mx-2">${item.quantity}</span>
+                                <div class="quantity-btn increase-item ms-2" data-name="${item.name}">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                                <span class="ms-4 fw-bold">Rp ${itemTotal.toLocaleString('id-ID')}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+        cartItemsElement.innerHTML = itemsHtml;
+        const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCountElement.textContent = itemCount;
+        floatingCartCount.textContent = itemCount;
+        cartTotalElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+
+        document.querySelectorAll('.increase-item').forEach(button => {
+            button.addEventListener('click', function () {
+                const name = this.getAttribute('data-name');
+                const item = cart.find(item => item.name === name);
+                if (item) {
+                    const baseName = getBaseName(name);
+                    if (stokMakanan[baseName] > item.quantity) {
+                        item.quantity += 1;
+                        stokMakanan[baseName]--;
+                        updateStokDisplay();     
+                        updateCart();
+                    } else {
+                        showStokToast();
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.decrease-item').forEach(button => {
+                button.addEventListener('click', function () {
+                    const name = this.getAttribute('data-name');
+                    const item = cart.find(item => item.name === name);
+                    if (item) {
+                        const baseName = getBaseName(name);
+                        item.quantity -= 1;
+                        stokMakanan[baseName]++; 
+                        updateStokDisplay();
+
+                        if (item.quantity <= 0) {
+                            cart = cart.filter(i => i.name !== name);
+                        }
+                        updateCart();
+                    }
+                });
+            });
+        }
+
+        //disini mulu masalahnya
+        function showRincianPesanan() {
+            if (cart.length === 0) {
+                const cartItemsElement = document.getElementById('cartItems');
+                cartItemsElement.innerHTML = 'Keranjang belanja kosong.';
+                cartItemsElement.classList.add('empty');
+                return;
+            }
+
+            document.getElementById('cartItems').classList.remove('empty');
+
+            const rincianContent = document.getElementById('rincianContent');
+            
+            const nama = localStorage.getItem('namaPelanggan') || 'Tidak diketahui';
+            const meja = localStorage.getItem('mejaPelanggan') || 'Tidak diketahui';
+
+            let html = `
+                        <div class="mb-3">
+                            <p><strong>Nama:</strong> ${nama}</p>
+                            <p><strong>Nomor Meja:</strong> ${meja}</p>
+                        </div>
+                        <ul class="list-group mb-3">
+                        `;
+            let total = 0;
+            let totalItems = 0;
+            
+            total = Number(total) || 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                totalItems += item.quantity;
+                html += `
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>Jumlah: ${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}</small>
+                        </div>
+                        <span class="fw-bold text-primary">Rp ${itemTotal.toLocaleString('id-ID')}</span>
+                    </li>
+                `;
+            });
+
+        let estimasiWaktu = '';
+
+        if (totalItems >= 1 && totalItems <= 5) {
+            estimasiWaktu = '10–25 menit';
+        } else if (totalItems > 5 && totalItems <= 10) {
+            estimasiWaktu = '25–40 menit';
+        } else if (totalItems > 10) {
+            estimasiWaktu = '40–60 menit';
+        } else {
+            estimasiWaktu = '-';
+        }
+
+
+        html += `</ul>
+            <h5 class="text-end">Total: <span class="text-success">Rp ${total.toLocaleString('id-ID')}</span></h5>
+            <div class="alert alert-success mt-3 text-center">
+                Terima kasih! Pesanan Anda sedang disiapkan.<br>
+                <strong>Estimasi waktu penyajian: ${estimasiWaktu}</strong>
+            </div>
+
+        `;
+
+
+        const metode = localStorage.getItem('metodePembayaran') || 'Tunai';
+
+            html += `
+                <p><strong>Metode Pembayaran:</strong> ${metode}</p>
+                `;
+            if (metode === 'Tunai') {
+            html += `
+                <div class="alert alert-warning text-center mt-3">
+                    Silakan melakukan pembayaran di <strong>kasir</strong> terlebih dahulu.
+                </div>
+                `;
+            }
+    rincianContent.innerHTML = html;
+
+    // Tutup modal keranjang, buka modal rincian
+    const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
+    cartModal.hide();
+
+    const rincianModal = new bootstrap.Modal(document.getElementById('rincianModal'));
+    rincianModal.show();
+    
+    // Simpan riwayat ke localStorage
+    const riwayat = JSON.parse(localStorage.getItem('riwayatPesanan')) || [];
+    riwayat.push({
+        nama,
+        meja,
+        metode,
+        total,
+        status: "belum",
+        timestamp: new Date().toISOString(),
+        pesanan: cart.map(item => ({
+            nama: item.name,
+            jumlah: Number(item.quantity),
+            harga: Number(item.price)
+        }))
+    });
+    localStorage.setItem('riwayatPesanan', JSON.stringify(riwayat));
+    localStorage.setItem('lastSavedDate', new Date().toLocaleDateString('id-ID'));
+
+
+    // Simpan stok terbaru ke localStorage juga!
+    localStorage.setItem('stokMakanan', JSON.stringify(stokMakanan));
+    
+    // Reset keranjang setelah checkout
+    cart = [];
+    updateCart();
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const animateElements = document.querySelectorAll('.animate');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        animateElements.forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(element);
+        });
+    });
+
+    function pilihMetodePembayaran() {
+        if (cart.length === 0) {
+            const alertBox = document.getElementById('emptyCartAlert');
+            alertBox.classList.remove('d-none');
+
+            setTimeout(() => {
+                alertBox.classList.add('d-none');
+            }, 2500);
+
+            return;
+        }
+
+
+        const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
+        if (cartModal) {
+            cartModal.hide();
+        }
+
+        // Delay sedikit biar smooth 
+        setTimeout(() => {
+            const pembayaranModal = new bootstrap.Modal(document.getElementById('pembayaranModal'));
+            pembayaranModal.show();
+        }, 300);
+    }
+
+
+    document.getElementById('konfirmasiPembayaran').addEventListener('click', function () {
+        const metode = document.querySelector('input[name="metodePembayaran"]:checked').value;
+        localStorage.setItem('metodePembayaran', metode);
+
+        const pembayaranModal = bootstrap.Modal.getInstance(document.getElementById('pembayaranModal'));
+        pembayaranModal.hide();
+
+        if (metode === 'Non-Tunai') {
+            // Tampilkan instruksi QRIS
+            showQrisModal(); 
+        } else {
+            // Langsung ke rincian jika tunai
+            showRincianPesanan();
+        }
+    });
+
+    function showQrisModal() {
+    const qrisModalEl = document.getElementById('qrisModal');
+    const qrisModal = new bootstrap.Modal(qrisModalEl);
+    qrisModal.show();
+
+    // pastikan event listener tidak dobel
+    const sudahBayarBtn = qrisModalEl.querySelector('.btn-success');
+        sudahBayarBtn.addEventListener('click', function handleBayar() {
+            qrisModal.hide();
+            showRincianPesanan();
+
+            sudahBayarBtn.removeEventListener('click', handleBayar);
+        });
+    }
+
+    // Simpan semua nama makanan ke localStorage (biar admin bisa baca)
+    function simpanDaftarMenuKeLocalStorage() {
+        const semuaTombol = document.querySelectorAll('.add-to-cart');
+        const daftarMenu = {};
+
+        semuaTombol.forEach(button => {
+            const nama = button.getAttribute('data-name');
+            if (nama) {
+                if (!(nama in daftarMenu)) {
+                    daftarMenu[nama] = stokMakanan[nama] || 0;
+                }
+            }
+        });
+
+        localStorage.setItem('stokMakanan', JSON.stringify(daftarMenu));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        simpanDaftarMenuKeLocalStorage(); 
+    });
+
+
+    
+    function tampilkanStatusPesanan() {
+    const nama = localStorage.getItem('namaPelanggan');
+    const meja = localStorage.getItem('mejaPelanggan');
+    const riwayat = JSON.parse(localStorage.getItem('riwayatPesanan')) || [];
+
+    if (!nama || !meja) return;
+
+    const pesananPelanggan = riwayat.filter(p => p.nama === nama && p.meja == meja);
+    
+        if (pesananPelanggan.length > 0) {
+        const statusTerakhir = pesananPelanggan[pesananPelanggan.length - 1];
+        let statusText = statusTerakhir.status === 'selesai' 
+            ? `<span class="badge bg-success">Pesanan sudah disajikan</span>`
+            : `<span class="badge bg-warning text-dark">Pesanan sedang diproses</span>`;
+
+        const waktu = new Date(statusTerakhir.timestamp || statusTerakhir.waktu).toLocaleString('id-ID');
+        document.getElementById('statusPesananContent').innerHTML = `
+            Nama: <strong>${statusTerakhir.nama}</strong><br>
+            Meja: <strong>${statusTerakhir.meja}</strong><br>
+            Status: ${statusText}<br>
+            Waktu Pesan: ${waktu}
+        `;
+        document.getElementById('statusPesananSection').style.display = 'block';
+        }
+    }
+
+    // panggil saat halaman siap
+    document.addEventListener('DOMContentLoaded', tampilkanStatusPesanan);
+
+    // kritik saran
+    document.getElementById("formPesan").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+        const nama = document.getElementById("namaPengirim").value;
+        const email = document.getElementById("emailPengirim").value;
+        const subjek = document.getElementById("subjekPesan").value;
+        const isi = document.getElementById("isiPesan").value;
+        const waktu = new Date().toLocaleString('id-ID');
+
+        const pesanBaru = { nama, email, subjek, isi, waktu };
+
+        const semuaPesan = JSON.parse(localStorage.getItem("kritikSaran")) || [];
+        semuaPesan.push(pesanBaru);
+        localStorage.setItem("kritikSaran", JSON.stringify(semuaPesan));
+
+        // Tampilkan toast notifikasi
+        showToastKritik();
+
+        this.reset();
+    });
+
+    function showToastKritik() {
+        const toast = document.getElementById("toastKritik");
+        toast.classList.remove("d-none");
+
+        setTimeout(() => {
+            toast.classList.add("d-none");
+        }, 3000);
+    }
+
+    </script>
+</body>
+</html>
