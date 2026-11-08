@@ -1,69 +1,125 @@
-## 🍜 Warmindo Online Ordering System
+# 🍜 Warmindo Online Ordering System
 
-Project ini merupakan sistem pemesanan makanan Warmindo berbasis web yang terdiri dari halaman user (pemesan) dan dashboard admin.
-Seluruh fitur berjalan menggunakan HTML, CSS, JavaScript, Bootstrap, dan seluruh data disimpan menggunakan LocalStorage tanpa backend.
+<p align="center">
+  **Sistem Pemesanan Makanan dan Minuman Berbasis Web**
+  <br />
+  Aplikasi pemesanan Warmindo dengan halaman pelanggan dan dashboard admin untuk mengelola pesanan, stok, serta laporan transaksi.
+</p>
 
-Project ini terdiri dari dua bagian utama:
-1. pelanggan.html → Halaman pemesanan (user)
-2. admin.html → Dashboard Admin untuk monitoring dan manajemen
+---
 
-## 1. Halaman User – Pemesanan
-   Halaman ini digunakan pelanggan untuk memesan makanan dan minuman secara langsung. Fitur Utama:
-   
-✔ Pemilihan Menu
-1. Daftar makanan dan minuman tampil lengkap dengan harga.
-2. Tersedia opsi topping (optional).
-3. Tersedia pilihan suhu minuman (ICE / HOT).
-4. Customization tersimpan per item.
+## 📌 Tentang Proyek
 
-✔ Manajemen Keranjang
-1. Menambah / menghapus item.
-2. Edit jumlah item secara real-time.
-3. Total harga otomatis terhitung.
-4. Penyimpanan data keranjang via LocalStorage.
+**Warmindo Online Ordering System** merupakan aplikasi berbasis web yang dirancang untuk mempermudah proses pemesanan makanan dan minuman di Warmindo.
 
-✔ Form Pemesanxdr
-1. Input nama pemesan
-2. Nomor meja
-3. Metode pembayaran (Cash / Qris)
+Aplikasi ini memiliki dua bagian utama, yaitu halaman pelanggan untuk melakukan pemesanan dan dashboard admin untuk memantau serta mengelola aktivitas operasional.
 
-✔ Checkout
-1. Pesanan yang selesai checkout akan tersimpan ke LocalStorage sebagai riwayatPesanan.
-2. Data dikirim ke halaman admin untuk monitoring.
+Seluruh fitur dikembangkan menggunakan HTML, CSS, JavaScript, dan Bootstrap. Penyimpanan data menggunakan **LocalStorage API**, sehingga aplikasi dapat berjalan tanpa backend atau database server.
 
-## 2. Dashboard Admin
-   Halaman admin untuk melihat pesanan, mengatur stok, membaca kritik & saran, serta mengelola laporan keuangan. Fitur Utama:
-   
-✔ Laporan Pesanan Harian
-1. Menampilkan seluruh pesanan lengkap dengan detail:
-   Nama pemesan
-   Nomor meja
-   Total harga
-   Metode pembayaran
-   Waktu transaksi
-2. Tombol "Tandai Selesai" untuk menandai pesanan yang sudah selesai.
-3. Penghitungan total pendapatan harian.
-4. Tombol Download CSV untuk mengunduh laporan.
+## ✨ Fitur Utama
 
-✔ Manajemen Stok
-1. Admin dapat mengubah stok makanan secara langsung.
-2. Perubahan otomatis tersimpan ke LocalStorage.
-3. Notifikasi toast muncul saat stok berhasil diubah.
+### 🛒 1. Halaman Pelanggan
 
-✔ Kritik & Saran
-1. Menampilkan pesan yang dikirim oleh pelanggan.
-2. Terdapat data: nama, email, isi pesan, waktu.
+Halaman pelanggan menyediakan antarmuka pemesanan yang memungkinkan pengguna memilih menu dan melakukan checkout secara langsung.
 
-✔ Modal Rincian Pesanan
-1. Menampilkan detail item pesanan dalam pop-up modal.
-2. Menghitung subtotal tiap menu.
+**Pemilihan Menu**
+- Menampilkan daftar makanan dan minuman beserta harga.
+- Menyediakan pilihan topping tambahan (opsional).
+- Menyediakan pilihan suhu minuman (ICE / HOT).
+- Mendukung kustomisasi setiap item pesanan.
 
-✔ Reset Harian
-1. Data laporan akan otomatis ter-reset setiap hari.
+**Manajemen Keranjang**
+- Menambahkan dan menghapus item.
+- Mengubah jumlah pesanan secara real-time.
+- Menghitung total harga secara otomatis.
+- Menyimpan data keranjang menggunakan LocalStorage.
 
-## Teknologi yang Digunakan
-1. HTML5
-2. CSS & Bootstrap 5.3.3
-3. JavaScript ES6
-4. LocalStorage API
-5. Font Awesome (ikon)
+**Informasi Pemesan**
+- Input nama pemesan.
+- Input nomor meja.
+- Pilihan metode pembayaran Cash atau QRIS.
+
+**Checkout**
+- Memproses pesanan pelanggan.
+- Menyimpan transaksi ke LocalStorage sebagai riwayat pesanan.
+- Menghubungkan data pesanan dengan dashboard admin melalui penyimpanan browser.
+
+### ⚙️ 2. Dashboard Admin
+
+Dashboard admin digunakan untuk memantau pesanan dan mengelola kebutuhan operasional Warmindo.
+
+**Laporan Pesanan Harian**
+- Menampilkan daftar pesanan beserta detail transaksi.
+- Menampilkan nama pemesan dan nomor meja.
+- Menampilkan rincian harga dan metode pembayaran.
+- Menampilkan waktu transaksi.
+- Menandai pesanan yang telah selesai.
+- Menghitung total pendapatan harian.
+- Mengunduh laporan transaksi dalam format CSV.
+
+**Manajemen Stok**
+- Mengubah jumlah stok makanan secara langsung.
+- Menyimpan perubahan stok secara otomatis.
+- Menampilkan notifikasi ketika stok berhasil diperbarui.
+
+**Kritik dan Saran**
+- Menampilkan pesan yang dikirim pelanggan.
+- Menyediakan informasi nama, email, isi pesan, dan waktu pengiriman.
+
+**Rincian Pesanan**
+- Menampilkan detail item dalam pop-up modal.
+- Menghitung subtotal setiap menu.
+
+**Reset Data Harian**
+- Mengatur ulang data laporan secara otomatis setiap hari.
+
+## 🖥️ Tampilan dan Halaman
+
+| Halaman | File |
+|---|---|
+| Halaman pemesanan pelanggan | `pelanggan.html` |
+| Dashboard admin | `admin.html` |
+
+## 🛠️ Teknologi yang Digunakan
+
+| Teknologi | Kegunaan |
+|---|---|
+| HTML5 | Struktur halaman web |
+| CSS3 | Styling dan tata letak |
+| Bootstrap 5.3.3 | Komponen dan responsive layout |
+| JavaScript ES6 | Logika aplikasi dan interaksi |
+| LocalStorage API | Penyimpanan data pada browser |
+| Font Awesome | Ikon antarmuka |
+
+## 🚀 Cara Menjalankan Proyek
+
+1. Clone repository:
+
+   ```bash
+   git clone https://github.com/tanzz15/Warmindo-Manoban.git
+   ```
+
+2. Buka folder proyek.
+3. Jalankan file `pelanggan.html` melalui browser untuk mengakses halaman pemesanan.
+4. Buka file `admin.html` untuk mengakses dashboard admin.
+
+Tidak diperlukan instalasi backend maupun database server.
+
+## ⚠️ Catatan
+
+Proyek ini menggunakan LocalStorage sebagai media penyimpanan data, bukan database terpusat. Data tersimpan pada browser yang digunakan sehingga aplikasi ini ditujukan sebagai proyek demonstrasi dan pembelajaran pengembangan aplikasi web, bukan sistem produksi multi-pengguna.
+
+## 🎯 Tujuan Pengembangan
+
+Proyek ini dibuat untuk menerapkan kemampuan pengembangan aplikasi web, khususnya dalam:
+- Membangun antarmuka pengguna.
+- Mengimplementasikan interaksi menggunakan JavaScript.
+- Mengelola data menggunakan LocalStorage.
+- Membuat sistem keranjang dan checkout.
+- Mengembangkan dashboard admin dan laporan transaksi.
+
+---
+
+<p align="center">
+  **Developed by [tanzz15](https://github.com/tanzz15)**
+</p>
